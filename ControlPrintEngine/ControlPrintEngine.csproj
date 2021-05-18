@@ -35,6 +35,7 @@
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Printing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,6 +51,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuiltinStocks.cs" />
     <Compile Include="BuiltinTemplates\CalibrationLabel3x1Control.xaml.cs">
       <DependentUpon>CalibrationLabel3x1Control.xaml</DependentUpon>
     </Compile>
@@ -63,8 +65,16 @@
       <DependentUpon>CalibrationLabel4x6.xaml</DependentUpon>
     </Compile>
     <Compile Include="BuiltinTemplates\CalibrationLabel3x1Definition.cs" />
+    <Compile Include="InstalledPrinter.cs" />
     <Compile Include="IPrintDocumentDefinition.cs" />
+    <Compile Include="PrintConfigurationSettings.cs" />
     <Compile Include="PrintDispatcher.cs" />
+    <Compile Include="PrintDocumentDefinitionManager.cs" />
+    <Compile Include="PrinterConfigurationViewModel.cs" />
+    <Compile Include="PrinterConfigurationWindow.xaml.cs">
+      <DependentUpon>PrinterConfigurationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PrintStock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -104,6 +114,10 @@
     <Page Include="BuiltinTemplates\CalibrationLabel4x6.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PrinterConfigurationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

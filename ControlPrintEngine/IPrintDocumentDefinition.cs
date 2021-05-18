@@ -23,7 +23,7 @@ namespace ControlPrintEngine
         UserControl CreateControl(object data = null);
 
         /// <summary>
-        /// Gets the friendly name of the label definition.
+        /// Gets the friendly name of the document definition.
         /// </summary>
         string Name { get; }
 
@@ -31,6 +31,8 @@ namespace ControlPrintEngine
         /// Gets the page size (in WPF units) of the label.
         /// </summary>
         Size PageSize { get; }
+
+
 
         PageOrientation Orientation { get; }
     }
