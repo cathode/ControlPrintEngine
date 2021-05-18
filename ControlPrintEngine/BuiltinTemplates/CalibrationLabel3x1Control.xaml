@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="ControlPrintEngine.BuiltinTemplates.CalibrationLabel3x1Control"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ControlPrintEngine.BuiltinTemplates"
+             mc:Ignorable="d"
+             Width="3in" Height="1in">
+    <Grid Background="White">
+        <Line Stroke="Black" StrokeThickness="1" X1="0.1in" X2="0.1in" Y1="0.01in" Y2="0.99in" />
+        <Line Stroke="Black" StrokeThickness="1" X1="0.2in" X2="0.2in" Y1="0.02in" Y2="0.98in" />
+        <Line Stroke="Black" StrokeThickness="1" X1="0.3in" X2="0.3in" Y1="0.03in" Y2="0.97in" />
+        <Line Stroke="Black" StrokeThickness="1" X1="0.4in" X2="0.4in" Y1="0.04in" Y2="0.96in" />
+        <Line Stroke="Black" StrokeThickness="1" X1="0.5in" X2="0.5in" Y1="0.05in" Y2="0.95in" />
+        <Line Stroke="Black" StrokeThickness="1" X1="0.6in" X2="0.6in" Y1="0.06in" Y2="0.94in" />
+        <Line Stroke="Black" StrokeThickness="1" X1="0.7in" X2="0.7in" Y1="0.07in" Y2="0.93in" />
+        <Line Stroke="Black" StrokeThickness="1" X1="0.8in" X2="0.8in" Y1="0.08in" Y2="0.92in" />
+        <Line Stroke="Black" StrokeThickness="1" X1="0.9in" X2="0.9in" Y1="0.09in" Y2="0.91in" />
+
+        <Line Stroke="Black" StrokeThickness="1" X1="0.01in" X2="0.1in" Y1="0.1in" Y2="0.1in" />
+        <Line Stroke="Black" StrokeThickness="1" X1="0.02in" X2="0.2in" Y1="0.2in" Y2="0.2in" />
+        <Line Stroke="Black" StrokeThickness="1" X1="0.03in" X2="0.3in" Y1="0.3in" Y2="0.3in" />
+        <Line Stroke="Black" StrokeThickness="1" X1="0.04in" X2="0.4in" Y1="0.4in" Y2="0.4in" />
+        <Line Stroke="Black" StrokeThickness="1" X1="0.05in" X2="0.5in" Y1="0.5in" Y2="0.5in" />
+        <Line Stroke="Black" StrokeThickness="1" X1="0.06in" X2="0.6in" Y1="0.6in" Y2="0.6in" />
+        <Line Stroke="Black" StrokeThickness="1" X1="0.07in" X2="0.7in" Y1="0.7in" Y2="0.7in" />
+        <Line Stroke="Black" StrokeThickness="1" X1="0.08in" X2="0.8in" Y1="0.8in" Y2="0.8in" />
+        <Line Stroke="Black" StrokeThickness="1" X1="0.09in" X2="0.9in" Y1="0.9in" Y2="0.9in" />
+        <Label x:Name="label" Content=".01" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Top" FontSize="6"/>
+        <Label x:Name="label_Copy" Content=".02" HorizontalAlignment="Left" Margin="15,7,0,0" VerticalAlignment="Top" FontSize="6"/>
+        <Label x:Name="label_Copy1" Content=".03" HorizontalAlignment="Left" Margin="25,17,0,0" VerticalAlignment="Top" FontSize="6"/>
+        <Label x:Name="label_Copy2" Content=".04" HorizontalAlignment="Left" Margin="34,26,0,0" VerticalAlignment="Top" FontSize="6"/>
+        <Label x:Name="label_Copy3" Content=".05" HorizontalAlignment="Left" Margin="44,36,0,0" VerticalAlignment="Top" FontSize="6"/>
+        <Label x:Name="label_Copy4" Content=".06" HorizontalAlignment="Left" Margin="53,46,0,0" VerticalAlignment="Top" FontSize="6"/>
+        <Label x:Name="label_Copy5" Content=".07" HorizontalAlignment="Left" Margin="63,55,0,0" VerticalAlignment="Top" FontSize="6"/>
+        <Label x:Name="label_Copy6" Content=".08" HorizontalAlignment="Left" Margin="73,65,0,0" VerticalAlignment="Top" FontSize="6"/>
+        <Label x:Name="label_Copy7" Content=".09" HorizontalAlignment="Left" Margin="82,75,0,0" VerticalAlignment="Top" FontSize="6"/>
+    </Grid>
+</UserControl>
