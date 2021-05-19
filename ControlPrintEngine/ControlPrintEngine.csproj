@@ -65,7 +65,7 @@
       <DependentUpon>CalibrationLabel4x6.xaml</DependentUpon>
     </Compile>
     <Compile Include="BuiltinTemplates\CalibrationLabel3x1Definition.cs" />
-    <Compile Include="InstalledPrinter.cs" />
+    <Compile Include="PrintQueueWrapper.cs" />
     <Compile Include="IPrintDocumentDefinition.cs" />
     <Compile Include="PrintConfigurationSettings.cs" />
     <Compile Include="PrintDispatcher.cs" />

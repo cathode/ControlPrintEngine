@@ -5,12 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPrintEngine"
         mc:Ignorable="d"
-        Title="PrinterConfigurationWindow" Height="300" Width="300">
+        Title="PrinterConfigurationWindow" Height="320" Width="640">
     <Window.DataContext>
         <local:PrinterConfigurationViewModel />
     </Window.DataContext>
     <Grid>
-        <ListBox x:Name="availablePrinters" HorizontalAlignment="Left" Height="223" Margin="10,10,0,0" VerticalAlignment="Top" Width="272" ItemsSource="{Binding Printers}"/>
+        <ListBox x:Name="availablePrinters" Margin="10,78,10,39" ItemsSource="{Binding Printers}" DisplayMemberPath="PrinterName" SelectionChanged="availablePrinters_SelectionChanged" />
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Configured Printer:" VerticalAlignment="Top"/>
 
+        <TextBlock Text="{Binding ConfiguredPrinter.PrinterName}" Margin="115,10,10,0" Height="16" VerticalAlignment="Top" />
+        <Button x:Name="selectPrinterButton" Content="Use Selected Printer" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="144" Height="24" Click="selectPrinterButton_Click"/>
+        <Button x:Name="printTestPageButton" Content="Print Test Page" HorizontalAlignment="Left" Margin="159,0,0,10" VerticalAlignment="Bottom" Width="144" Height="24" Click="printTestPageButton_Click"/>
     </Grid>
 </Window>

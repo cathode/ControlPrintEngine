@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Management;
+using System.Windows.Controls.Primitives;
+using System.Printing;
 
 namespace ControlPrintEngine
 {
@@ -25,30 +27,61 @@ namespace ControlPrintEngine
             InitializeComponent();
         }
 
+        private PrinterConfigurationViewModel vm;
 
 
         protected override void OnInitialized(EventArgs e)
         {
-            var vm = new PrinterConfigurationViewModel();
+            //var pq = new PrintQueue()
+            this.vm = new PrinterConfigurationViewModel();
 
-            var printerQuery = new ManagementObjectSearcher("SELECT * from Win32_Printer");
+            vm.Printers = new List<PrintQueueWrapper>();
 
-            vm.Printers = new List<InstalledPrinter>();
-
-            foreach (var printer in printerQuery.Get())
+            foreach (var pq in new LocalPrintServer().GetPrintQueues())
             {
-                var name = printer.GetPropertyValue("Name");
-                var status = printer.GetPropertyValue("Status");
-                var isDefault = printer.GetPropertyValue("Default");
-                var isNetworkPrinter = printer.GetPropertyValue("Network");
-
-                vm.Printers.Add(new InstalledPrinter { Name = name.ToString(), Status = status.ToString(), IsDefault = bool.Parse(isDefault.ToString()), IsNetworkPrinter = bool.Parse(isNetworkPrinter.ToString()) });
+                this.vm.Printers.Add(new PrintQueueWrapper(pq));
             }
 
-            this.DataContext = vm;
+            this.DataContext = this.vm;
+
+            this.selectPrinterButton.IsEnabled = false;
 
             base.OnInitialized(e);
 
+        }
+
+        private void selectPrinterButton_Click(object sender, RoutedEventArgs e)
+        {
+            var pqw = this.availablePrinters.SelectedItem as PrintQueueWrapper;
+
+            if (pqw != null && pqw != this.vm.ConfiguredPrinter)
+            {
+                this.vm.ConfiguredPrinter = pqw;
+
+                this.selectPrinterButton.IsEnabled = false;
+            }
+        }
+
+        private void printTestPageButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void availablePrinters_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var pqw = this.availablePrinters.SelectedItem as PrintQueueWrapper;
+
+            if (pqw != null)
+            {
+                if (pqw != this.vm.ConfiguredPrinter)
+                {
+                    this.selectPrinterButton.IsEnabled = true;
+                }
+            }
+            else
+            {
+                this.selectPrinterButton.IsEnabled = false;
+            }
         }
     }
 }

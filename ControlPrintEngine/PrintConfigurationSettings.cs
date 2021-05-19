@@ -9,5 +9,7 @@ namespace ControlPrintEngine
     public class PrintConfigurationSettings
     {
         public string PrinterPath { get; set; }
+
+        public PrintQueueWrapper ConfiguredPrinter { get; set; }
     }
 }
