@@ -22,12 +22,16 @@ namespace ControlPrintEngine
     /// </summary>
     public partial class PrinterConfigurationWindow : Window
     {
-        public PrinterConfigurationWindow()
+        public PrinterConfigurationWindow(PrintConfigurationSettings workingConfig)
         {
+            this.PrintConfiguration = workingConfig;
+
             InitializeComponent();
         }
 
         private PrinterConfigurationViewModel vm;
+
+        public PrintConfigurationSettings PrintConfiguration { get; set; }
 
 
         protected override void OnInitialized(EventArgs e)
@@ -64,7 +68,7 @@ namespace ControlPrintEngine
 
         private void printTestPageButton_Click(object sender, RoutedEventArgs e)
         {
-
+            throw new NotImplementedException();
         }
 
         private void availablePrinters_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -82,6 +86,20 @@ namespace ControlPrintEngine
             {
                 this.selectPrinterButton.IsEnabled = false;
             }
+        }
+
+        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void saveCloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.PrintConfiguration.ConfiguredPrinter = this.vm.ConfiguredPrinter;
+
+            this.PrintConfiguration.WriteConfigurationSettings();
+
+            this.Close();
         }
     }
 }
