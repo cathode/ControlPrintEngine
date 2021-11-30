@@ -32,8 +32,6 @@ namespace ControlPrintEngine
         /// </summary>
         Size PageSize { get; }
 
-
-
         PageOrientation Orientation { get; }
     }
 }

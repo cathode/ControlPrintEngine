@@ -1,0 +1,30 @@
+{
+  "PrinterPath": "unknown",
+
+  "Stocks": [
+    {
+      "Name": "Label3x1",
+      "Width": 3.0,
+      "Height": 1.0,
+      "Orientation": "Portrait"
+    },
+    {
+      "Name": "Label4x2",
+      "Width": 4.0,
+      "Height": 2.0,
+      "Orientation": "Portrait"
+    },
+    {
+      "Name": "Label4x6",
+      "Width": 4.0,
+      "Height": 6.0,
+      "Orientation": "Portrait"
+    },
+    {
+      "Name": "Letter",
+      "Width": 8.5,
+      "Height": 11,
+      "Orientation": "Portrait"
+    }
+  ]
+}

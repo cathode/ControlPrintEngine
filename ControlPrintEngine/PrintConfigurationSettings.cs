@@ -17,6 +17,8 @@ namespace ControlPrintEngine
 
         public string PrinterPath { get; set; }
 
+        public PrintConfigurationSettings.StockConfiguration[] Stocks { get; set; }
+
         [System.Text.Json.Serialization.JsonIgnore]
         public PrintQueueWrapper ConfiguredPrinter { get; set; }
 
@@ -69,6 +71,17 @@ namespace ControlPrintEngine
             {
                 throw new NotImplementedException();
             }
+        }
+
+        public class StockConfiguration
+        {
+            public string Name { get; set; }
+
+            public float Width { get; set; }
+
+            public float Height { get; set; }
+
+            public string Orientation { get; set; }
         }
     }
 }

@@ -11,9 +11,16 @@ namespace ControlPrintEngine
 {
     public class PrintStock
     {
+        public string Name { get; set; }
+
+        public float Width { get; set; }
+
+        public float Height { get; set; }
+
         /// <summary>
         /// Gets the page size (in WPF units) of the label.
         /// </summary>
+        [System.Text.Json.Serialization.JsonIgnore]
         public Size PageSize { get; internal set; }
         
         /// <summary>

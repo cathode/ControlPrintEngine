@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ControlPrintEngine
 {
+    /// <summary>
+    /// Provides a system for discovery of print documents in an assembly.
+    /// </summary>
     public class PrintDocumentDefinitionManager
     {
         private static readonly Lazy<PrintDocumentDefinitionManager> instance = new Lazy<PrintDocumentDefinitionManager>(() => new PrintDocumentDefinitionManager());
@@ -26,12 +29,10 @@ namespace ControlPrintEngine
             }
         }
 
-        private void ScanAssemblyForDefinitions(Assembly asm = null)
+        public void ScanAssemblyForDefinitions(Assembly asm = null)
         {
             if (asm == null)
-            {
                 asm = Assembly.GetExecutingAssembly();
-            }
 
             var types = asm.GetTypes()
                 .Where(t => t.GetInterfaces()

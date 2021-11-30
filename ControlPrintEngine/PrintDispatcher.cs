@@ -42,7 +42,7 @@ namespace ControlPrintEngine
 
             this.PrintLabels(label, (IEnumerable<object>)data, quantity, Size.Empty);
         }
-        
+
         public void PrintLabels(IPrintDocumentDefinition def, IEnumerable<object> labelData, int quantity, Size sheetSize)
         {
             Contract.Requires(def != null);
@@ -164,6 +164,15 @@ namespace ControlPrintEngine
 
             // Send label to printer
             dialog.PrintDocument(fd.DocumentPaginator, def.Name);
+        }
+
+        public void SetPrinter(string printerPath)
+        {
+            var lps = new LocalPrintServer();
+
+            var pq = lps.GetPrintQueue(printerPath);
+
+            this.ActivePrintQueue = pq;
         }
     }
 }
