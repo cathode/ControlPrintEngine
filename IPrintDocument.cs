@@ -6,13 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace ControlPrintEngine
 {
     /// <summary>
     /// Provides a contract for types implementing definitions for printable documents.
     /// </summary>
-    public interface IPrintDocumentDefinition
+    public interface IPrintDocument
     {
         /// <summary>
         /// Creates a new instance of the user control class representing the document's visual,
@@ -27,11 +28,11 @@ namespace ControlPrintEngine
         /// </summary>
         string Name { get; }
 
+        public PageOrientation Orientation { get; }
+
         /// <summary>
         /// Gets the page size (in WPF units) of the label.
         /// </summary>
-        Size PageSize { get; }
-
-        PageOrientation Orientation { get; }
+        PrintMedia Stock { get; }
     }
 }

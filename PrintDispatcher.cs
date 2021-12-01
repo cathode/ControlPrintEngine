@@ -30,12 +30,18 @@ namespace ControlPrintEngine
         public int PrintDpiY { get; set; }
         public PrintQueue ActivePrintQueue { get; set; }
 
+        public void Print(DocumentPrintJob job)
+        {
+            Contract.Requires(job != null);
+
+        }
+
         public void PrintLabels(string name, object[] data, int quantity = 1)
         {
             throw new NotImplementedException();
         }
 
-        public void PrintLabels(IPrintDocumentDefinition label, object[] data, int quantity = 1)
+        public void PrintLabels(IPrintDocument label, IEnumerable<object> data, int quantity = 1)
         {
             Contract.Requires(label != null);
             Contract.Requires(data != null);
@@ -43,13 +49,13 @@ namespace ControlPrintEngine
             this.PrintLabels(label, (IEnumerable<object>)data, quantity, Size.Empty);
         }
 
-        public void PrintLabels(IPrintDocumentDefinition def, IEnumerable<object> labelData, int quantity, Size sheetSize)
+        public void PrintLabels(IPrintDocument def, IEnumerable<object> labelData, int quantity, Size sheetSize)
         {
             Contract.Requires(def != null);
             Contract.Requires(labelData != null);
 
             var fd = new FixedDocument();
-            var ps = def.PageSize;
+            var ps = def.Stock.PageSize;
             var ss = sheetSize == Size.Empty ? ps : sheetSize;
             int cols = (int)Math.Floor(ss.Width / ps.Width);
             int rows = (int)Math.Floor(ss.Height / ps.Height);

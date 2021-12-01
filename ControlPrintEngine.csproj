@@ -9,12 +9,18 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="PrintDispatcher.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove=".git" />
     <None Remove=".gitattributes" />
     <None Remove=".gitignore" />
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PrintDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
