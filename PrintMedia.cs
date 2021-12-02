@@ -11,16 +11,16 @@ namespace ControlPrintEngine
 {
     public class PrintMedia
     {
-        public static readonly PrintMedia ThermalLabel3x1 = new PrintMedia("TL3x1", 3.0 * 96, 1.0 * 96);
-        public static readonly PrintMedia ThermalLabel4x2 = new PrintMedia("TL4x2", 4.0 * 96, 2.0 * 96);
-        public static readonly PrintMedia ThermalLabel4x6 = new PrintMedia("TL4x6", 4.0 * 96, 6.0 * 96);
+        public static readonly PrintMedia ThermalLabel3x1 = new PrintMedia("Label3x1", 3.0, 1.0, PrintMediaType.Thermal);
+        public static readonly PrintMedia ThermalLabel4x2 = new PrintMedia("Label4x2", 4.0, 2.0, PrintMediaType.Thermal);
+        public static readonly PrintMedia ThermalLabel4x6 = new PrintMedia("Label4x6", 4.0, 6.0, PrintMediaType.Thermal);
 
-        public PrintMedia(string name, double width, double height)
+        public PrintMedia(string name, double width, double height, PrintMediaType mediaType)
         {
             this.Name = name;
             this.Width = width;
             this.Height = height;
-            //this.Orientation = PageOrientation.Portrait;
+            this.MediaType = mediaType;
         }
 
         public string Name { get; internal set; }
@@ -29,15 +29,12 @@ namespace ControlPrintEngine
 
         public double Height { get; internal set; }
 
-        /// <summary>
-        /// Gets the page size (in WPF units) of the label.
-        /// </summary>
-        //[System.Text.Json.Serialization.JsonIgnore]
-        //public Size PageSize { get; internal set; }
+        public PrintMediaType MediaType { get; internal set; }
 
         static PrintMedia()
         {
             PrintMedia._registeredMedia = new List<PrintMedia>();
+            PrintMedia._registeredMappings = new List<PrinterMapping>();
 
             // Register hardcoded medias
             PrintMedia.RegisterMedia(ThermalLabel3x1);
@@ -49,9 +46,9 @@ namespace ControlPrintEngine
         private static readonly List<PrintMedia> _registeredMedia;
         private static readonly List<PrinterMapping> _registeredMappings;
 
-        public static PrintMedia RegisterMedia(string mediaName, float width, float height, PageOrientation orientation)
+        public static PrintMedia RegisterMedia(string mediaName, double width, double height, PrintMediaType mediaType)
         {
-            var media = new PrintMedia(mediaName, width, height);
+            var media = new PrintMedia(mediaName, width, height, mediaType);
 
             return PrintMedia.RegisterMedia(media);
         }
@@ -84,16 +81,20 @@ namespace ControlPrintEngine
 
         public static void RegisterPrinter(string printerPath, PrintMediaType mediaType)
         {
-            var mapping = new PrinterMapping { PrinterPath = printerPath };
+            var mapping = new PrinterMapping { PrinterPath = printerPath, MediaType = mediaType };
+
+            PrintMedia._registeredMappings.Add(mapping);
         }
 
-        public static PrintQueue GetPrintQueueForMediaType(PrintMediaType thermal)
+        public static PrintQueue GetPrintQueueForMediaType(PrintMediaType mediaType)
         {
             var lps = new LocalPrintServer();
 
             var queues = lps.GetPrintQueues();
 
-            return queues.FirstOrDefault(p => p.Name == "ZDesigner ZM600 300 dpi (ZPL)");
+            var mapping = _registeredMappings.FirstOrDefault(p => p.MediaType == mediaType);
+
+            return queues.FirstOrDefault(p => p.Name == mapping.PrinterPath);
 
         }
     }

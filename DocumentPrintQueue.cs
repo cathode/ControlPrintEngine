@@ -90,7 +90,7 @@ namespace ControlPrintEngine
         private void DoPrintSection(DocumentPrintJobSection section)
         {
             var fd = new FixedDocument();
-            var ps = new Size(section.Document.Stock.Width, section.Document.Stock.Height);
+            var ps = new Size(section.Document.Stock.Width * this.PrintDpiX, section.Document.Stock.Height * this.PrintDpiY);
 
             foreach (var pg in section.Pages)
             {
@@ -116,6 +116,7 @@ namespace ControlPrintEngine
 
             var pq = PrintMedia.GetPrintQueueForMediaType(PrintMediaType.Thermal);
             pq.Refresh();
+            //pq.UserPrintTicket.
 
             var dialog = new PrintDialog() { PrintQueue = pq };
 

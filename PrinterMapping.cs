@@ -10,10 +10,12 @@ namespace ControlPrintEngine
     {
         public string PrinterPath { get; set; }
 
-        public PrintMediaType PrinterMediaType { get; internal set; }
+        public PrintMediaType MediaType { get; set; }
 
-        public IEnumerable<PrintMedia> PrintableMedia { get; internal set; }
+        public IEnumerable<string> PrintableMediaNames { get; set; }
+
+        public IEnumerable<PrintMedia> PrintableMedia { get; set; }
+
+
     }
-
-
 }
