@@ -130,6 +130,10 @@ namespace ControlPrintEngine
             dialog.PrintTicket.CopyCount = 1;
             dialog.PrintTicket.OutputQuality = OutputQuality.High;
 
+            var dc = fd.DataContext;
+            fd.DataContext = null;
+            fd.DataContext = dc;
+
             // Send label to printer
             dialog.PrintDocument(fd.DocumentPaginator, section.Document.Name);
         }
