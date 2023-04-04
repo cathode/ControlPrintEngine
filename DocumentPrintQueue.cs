@@ -30,15 +30,22 @@ namespace ControlPrintEngine
         private Thread _processingThread;
         private bool _isProcessing;
         private AutoResetEvent _interlock = new AutoResetEvent(true);
-        private string _printerName;
+        //private string _printerName;
+
+        public PrintQueue UnderlyingQueue { get; set; }
+
+        public string PrinterPath { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentPrintQueue"/> class.
         /// </summary>
-        /// <param name="printerName"></param>
         public DocumentPrintQueue()
         {
+        }
 
+        public DocumentPrintQueue(string printerPath)
+        {
+            this.PrinterPath = printerPath;
         }
 
         public static readonly int DefaultPrintDpi = 300;
@@ -66,9 +73,6 @@ namespace ControlPrintEngine
             {
                 DocumentPrintJob job;
 
-                //var dispatcher = new PrintDispatcher();
-                //dispatcher.SetPrinter(this._printerName);
-
                 while (this._jobQueue.TryDequeue(out job))
                 {
                     this.DoPrintJob(job);
@@ -83,6 +87,24 @@ namespace ControlPrintEngine
 
         private void DoPrintJob(DocumentPrintJob job)
         {
+            if (this.UnderlyingQueue == null)
+            {
+                if (this.PrinterPath == null)
+                {
+                    this.UnderlyingQueue = PrintMedia.GetPrintQueueForMediaType(PrintMediaType.Thermal);
+                }
+                else
+                {
+                    using (var lps = new LocalPrintServer())
+                    {
+                        var queues = lps.GetPrintQueues();
+
+                        this.UnderlyingQueue = queues.FirstOrDefault(p => p.Name == this.PrinterPath);
+                    }
+                }
+                this.UnderlyingQueue.Refresh();
+            }
+
             foreach (var section in job.Sections)
                 this.DoPrintSection(section);
         }
@@ -114,11 +136,10 @@ namespace ControlPrintEngine
                     fd.Pages.Add(pc);
             }
 
-            var pq = PrintMedia.GetPrintQueueForMediaType(PrintMediaType.Thermal);
-            pq.Refresh();
+
             //pq.UserPrintTicket.
 
-            var dialog = new PrintDialog() { PrintQueue = pq };
+            var dialog = new PrintDialog() { PrintQueue = this.UnderlyingQueue };
 
             // Setup and override options for label printing.
             dialog.PrintTicket.PageMediaType = PageMediaType.Label;

@@ -12,6 +12,7 @@ namespace ControlPrintEngine
     public class PrintMedia
     {
         public static readonly PrintMedia ThermalLabel3x1 = new PrintMedia("Label3x1", 3.0, 1.0, PrintMediaType.Thermal);
+        public static readonly PrintMedia ThermalLabel4x1p5 = new PrintMedia("Label4x1.5", 4.0, 1.5, PrintMediaType.Thermal);
         public static readonly PrintMedia ThermalLabel4x2 = new PrintMedia("Label4x2", 4.0, 2.0, PrintMediaType.Thermal);
         public static readonly PrintMedia ThermalLabel4x6 = new PrintMedia("Label4x6", 4.0, 6.0, PrintMediaType.Thermal);
 
@@ -38,6 +39,7 @@ namespace ControlPrintEngine
 
             // Register hardcoded medias
             PrintMedia.RegisterMedia(ThermalLabel3x1);
+            PrintMedia.RegisterMedia(ThermalLabel4x1p5);
             PrintMedia.RegisterMedia(ThermalLabel4x2);
             PrintMedia.RegisterMedia(ThermalLabel4x6);
 
