@@ -95,7 +95,7 @@ namespace ControlPrintEngine
                 }
                 else
                 {
-                    using (var lps = new LocalPrintServer())
+                using (var lps = new LocalPrintServer())
                     {
                         var queues = lps.GetPrintQueues();
 
