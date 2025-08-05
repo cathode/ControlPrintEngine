@@ -1,0 +1,3 @@
+ControlPrintEngine is a C# / .NET library that enables WPF UserControls to be rendered to the print system on Windows.
+
+This library is primarily designed to support applications that need to send print jobs to thermal label printers (e.g. Zebra).
