@@ -18,12 +18,18 @@ namespace ControlPrintEngine
 
         public IEnumerable<DocumentPrintJobSection> Sections { get { return this.sections.AsEnumerable(); } }
 
-        public DocumentPrintJobSection AddSection(IPrintDocument document, IEnumerable<object> pageData = null)
+        public DocumentPrintJobSection AddSection(IPrintableControlDefinition document, IEnumerable<object> pageData = null)
         {
             var section = new DocumentPrintJobSection(this);
             this.sections.Add(section);
 
             section.Document = document;
+
+            if (this.OutputWidth < document.Width)
+                this.OutputWidth = document.Width;
+
+            if (this.OutputHeight < document.Height)
+                this.OutputHeight = document.Height;
 
             if (pageData != null)
                 foreach (var p in pageData)
@@ -31,6 +37,10 @@ namespace ControlPrintEngine
 
             return section;
         }
+
+        public double OutputWidth { get; set; }
+
+        public double OutputHeight { get; set; }
     }
 
     public class DocumentPrintJobSection
@@ -44,9 +54,9 @@ namespace ControlPrintEngine
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="IPrintDocument"/> that will be rendered for this section
+        /// Gets or sets the <see cref="IPrintableControlDefinition"/> that will be rendered for this section
         /// </summary>
-        public IPrintDocument Document { get; set; }
+        public IPrintableControlDefinition Document { get; set; }
 
         public IEnumerable<DocumentPrintJobPage> Pages { get { return this.pages.AsEnumerable(); } }
 

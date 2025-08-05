@@ -17,6 +17,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
+using System.Windows.Media;
 
 namespace ControlPrintEngine
 {
@@ -41,17 +42,23 @@ namespace ControlPrintEngine
         /// </summary>
         public DocumentPrintQueue()
         {
+            this.PrintDpiX = 300;
+            this.PrintDpiY = 300;
         }
 
         public DocumentPrintQueue(string printerPath)
         {
+            this.PrintDpiX = 300;
+            this.PrintDpiY = 300;
             this.PrinterPath = printerPath;
         }
 
         public static readonly int DefaultPrintDpi = 300;
 
-        public int PrintDpiX => 300;
-        public int PrintDpiY => 300;
+        public int PrintDpiX { get; set; }
+        public int PrintDpiY { get; set; }
+
+        //public PrintMedia CurrentMedia { get; set; }
 
         private void ProcessQueue()
         {
@@ -91,11 +98,12 @@ namespace ControlPrintEngine
             {
                 if (this.PrinterPath == null)
                 {
-                    this.UnderlyingQueue = PrintMedia.GetPrintQueueForMediaType(PrintMediaType.Thermal);
+                    throw new NotImplementedException();
+                    //this.UnderlyingQueue = PrintMedia.GetPrintQueueForMediaType(PrintMediaType.Thermal);
                 }
                 else
                 {
-                using (var lps = new LocalPrintServer())
+                    using (var lps = new LocalPrintServer())
                     {
                         var queues = lps.GetPrintQueues();
 
@@ -103,48 +111,59 @@ namespace ControlPrintEngine
                     }
                 }
                 this.UnderlyingQueue.Refresh();
+
+                var res = this.UnderlyingQueue.DefaultPrintTicket.PageResolution;
+                this.PrintDpiX = res.X ?? 0;
+                this.PrintDpiY = res.Y ?? 0;
+
             }
+
+            var fd = new FixedDocument();
+            var ps = new Size(job.OutputWidth * 96, job.OutputHeight * 96);
 
             foreach (var section in job.Sections)
-                this.DoPrintSection(section);
-        }
-
-        private void DoPrintSection(DocumentPrintJobSection section)
-        {
-            var fd = new FixedDocument();
-            var ps = new Size(section.Document.Stock.Width * this.PrintDpiX, section.Document.Stock.Height * this.PrintDpiY);
-
-            foreach (var pg in section.Pages)
             {
-                var control = section.Document.CreateControl(pg.PageData);
-                var pageContainer = new FixedPage();
+                foreach (var pg in section.Pages)
+                {
+                    var control = section.Document.CreateControl(pg.PageData);
 
-                pageContainer.Children.Add(control);
+                    // Apply a rotation to the control itself because label printers don't seem to want to print in landscape ever.
+                    // With the control layout rotated, we can send the print job to the printer as a "portrait" orientation.
+                    if (section.Document.Orientation == PageOrientation.Landscape)
+                        control.LayoutTransform = new RotateTransform(90) { CenterX = control.Width / 2.0, CenterY = control.Height / 2.0 };
 
-                pageContainer.Width = ps.Width;
-                pageContainer.Height = ps.Height;
 
-                pageContainer.Measure(ps);
-                pageContainer.Arrange(new Rect(default(Point), ps));
-                pageContainer.UpdateLayout();
+                    var pageContainer = new FixedPage();
 
-                var pc = new PageContent();
-                ((IAddChild)pc).AddChild(pageContainer);
+                    pageContainer.Children.Add(control);
 
-                Contract.Assume(fd.Pages != null);
-                for (int i = 0; i < pg.Count; ++i)
-                    fd.Pages.Add(pc);
+                    pageContainer.Width = ps.Width;
+                    pageContainer.Height = ps.Height;
+
+                    pageContainer.Measure(ps);
+                    pageContainer.Arrange(new Rect(default(Point), ps));
+
+
+
+                    pageContainer.UpdateLayout();
+
+
+
+                    var pc = new PageContent();
+                    ((IAddChild)pc).AddChild(pageContainer);
+
+                    Contract.Assume(fd.Pages != null);
+                    for (int i = 0; i < pg.Count; ++i)
+                        fd.Pages.Add(pc);
+                }
             }
-
-
-            //pq.UserPrintTicket.
 
             var dialog = new PrintDialog() { PrintQueue = this.UnderlyingQueue };
 
             // Setup and override options for label printing.
             dialog.PrintTicket.PageMediaType = PageMediaType.Label;
             dialog.PrintTicket.PageBorderless = PageBorderless.Borderless;
-            dialog.PrintTicket.PageOrientation = section.Document.Orientation;
+            dialog.PrintTicket.PageOrientation = PageOrientation.Portrait;
             dialog.PrintTicket.PageResolution = new PageResolution(this.PrintDpiX, this.PrintDpiY);
             dialog.PrintTicket.PageMediaSize = new PageMediaSize(ps.Width, ps.Height);
             dialog.PrintTicket.PageScalingFactor = 100;
@@ -156,7 +175,7 @@ namespace ControlPrintEngine
             fd.DataContext = dc;
 
             // Send label to printer
-            dialog.PrintDocument(fd.DocumentPaginator, section.Document.Name);
+            dialog.PrintDocument(fd.DocumentPaginator, "Label Print Job");
         }
 
         /// <summary>

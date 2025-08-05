@@ -14,11 +14,11 @@ namespace ControlPrintEngine
     {
         private static readonly Lazy<PrintDocumentDefinitionManager> instance = new Lazy<PrintDocumentDefinitionManager>(() => new PrintDocumentDefinitionManager());
 
-        private readonly Dictionary<string, IPrintDocument> definitions;
+        private readonly Dictionary<string, IPrintableControlDefinition> definitions;
 
         private PrintDocumentDefinitionManager()
         {
-            this.definitions = new Dictionary<string, IPrintDocument>();
+            this.definitions = new Dictionary<string, IPrintableControlDefinition>();
         }
 
         public static PrintDocumentDefinitionManager Instance
@@ -36,7 +36,7 @@ namespace ControlPrintEngine
 
             var types = asm.GetTypes()
                 .Where(t => t.GetInterfaces()
-                    .Contains(typeof(IPrintDocument)));
+                    .Contains(typeof(IPrintableControlDefinition)));
 
             foreach (var def in types)
             {

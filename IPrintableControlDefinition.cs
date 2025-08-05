@@ -13,7 +13,7 @@ namespace ControlPrintEngine
     /// <summary>
     /// Provides a contract for types implementing definitions for printable documents.
     /// </summary>
-    public interface IPrintDocument
+    public interface IPrintableControlDefinition
     {
         /// <summary>
         /// Creates a new instance of the user control class representing the document's visual,
@@ -31,8 +31,13 @@ namespace ControlPrintEngine
         public PageOrientation Orientation { get; }
 
         /// <summary>
-        /// Gets the page size (in WPF units) of the label.
+        /// Gets the page width (US inches) of the label control.
         /// </summary>
-        PrintMedia Stock { get; }
+        public double Width { get; }
+
+        /// <summary>
+        /// Gets the page height (US inches) of the label control.
+        /// </summary>
+        public double Height { get; }
     }
 }
